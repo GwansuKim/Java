@@ -67,14 +67,13 @@ public class Homework_01_11 {
 			System.out.println("0~999 입력>");
 			input1 = Integer.parseInt(sc.nextLine());
 			arr2[i] = input1;
-			int hundred = arr2[i] / 100;
-			int ten = (arr2[i] % 100) / 10;
-			int one = arr2[i] % 10;
-			int total = hundred + ten + one;
-			if (total % 3 == 0 && arr2[i] != 0) {
-				System.out.println(arr2[i]);
+		}
+		for (int i = 0; i < arr2.length; i++) {
+			if (arr2[i] % 3 == 0 && arr2[i] != 0) {
+				System.out.print(arr2[i]+" ");
 			}
 		}
+		System.out.println();
 
 		// [추가 문제]
 
@@ -85,12 +84,12 @@ public class Homework_01_11 {
 		int[] counter = new int[4];
 
 		for (int i = 0; i < answer.length; i++) {
-			counter[answer[i]-1]++;
+			counter[answer[i] - 1]++;
 		}
 		for (int i = 0; i < counter.length; i++) {
 			System.out.println(counter[i]);
 		}
-		
+
 		// ※ 배열의 각 인덱스와 숫자의 연관성을 지으면서 풀어 볼 것.
 		// 출력 예시) ***
 		// **
