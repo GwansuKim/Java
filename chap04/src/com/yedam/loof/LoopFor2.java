@@ -2,7 +2,7 @@ package com.yedam.loof;
 
 import java.util.Scanner;
 
-public class LoofFor2 {
+public class LoopFor2 {
 
 	public static void main(String[] args) {
 		//중첩 for문
