@@ -23,6 +23,7 @@ public class StringRef {
 		} else {
 			System.out.println("1과 3는 데이터 값은 다르다");
 		}
+		System.out.println(strVal1);
 	}
 
 }

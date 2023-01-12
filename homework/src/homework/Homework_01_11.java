@@ -87,7 +87,10 @@ public class Homework_01_11 {
 			counter[answer[i] - 1]++;
 		}
 		for (int i = 0; i < counter.length; i++) {
-			System.out.println(counter[i]);
+			for(int j = 0; j < counter[i]; j++) {
+				System.out.print("*");
+			}
+			System.out.println();
 		}
 
 		// ※ 배열의 각 인덱스와 숫자의 연관성을 지으면서 풀어 볼 것.
