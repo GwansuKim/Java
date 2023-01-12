@@ -24,6 +24,8 @@ public class Book_exe {
 //		4) 도서번호 : yedam-002
 		Book book2 = new Book("이것이 리눅스다", "학습서", 32000, "한빛미디어", "yedam-002");
 		book2.getInfo();
+		Book book3 = new Book(20000);
+		book3.getInfo();
 	}
 
 }

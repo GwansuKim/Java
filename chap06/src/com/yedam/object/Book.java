@@ -16,6 +16,23 @@ public class Book {
 		this.publisher = publisher;
 		this.isbn = isbn;
 	}
+	//매개 변수 순서에 따른 생성자 오버로딩
+	//데이터 타입 기준으로 순서를 따진다
+	Book(String isbn, int price){
+		this.isbn = isbn;
+		this.price = price;
+	}
+	Book(int price, String isbn){
+		this.isbn = isbn;
+		this.price = price;
+	}
+	//매개 변수 갯수에 따른 오버로딩
+	Book(int price){
+		this.price = price;
+	}
+	Book(){
+		
+	}
 
 	// 메소드
 	void getInfo() {
