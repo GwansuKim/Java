@@ -23,7 +23,6 @@ public class Main {
 					System.out.println("5~10 사이의 수를 입력해 주세요");
 					diceSize = 0;
 				}
-				System.out.println(diceSize);
 				break;
 			case 2:
 				int count = 0;
