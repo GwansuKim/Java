@@ -10,6 +10,7 @@ public class Main {
 		int diceSize = 0;
 		int[] diceNo = null;
 		// diceNo[0] = 주사위1, [1] = 주사위2...
+		
 		Outter: while (true) {
 			System.out.println("===1.주사위 크기|2.주사위 굴리기|3.결과 보기|4.가장 많이 나온 수|5.종료===");
 			System.out.println("메뉴 >");
