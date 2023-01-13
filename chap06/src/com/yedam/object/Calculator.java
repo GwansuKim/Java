@@ -3,7 +3,7 @@ package com.yedam.object;
 public class Calculator {
 	//필드
 	
-	//셍상지
+	//생성자
 	//메소드
 	//메소드 리턴 타입이 존재할때
 	int sum( int a, int b) {

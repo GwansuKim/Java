@@ -13,9 +13,23 @@ public class Student {
 	// 생성자, 객체 초기화(생성)할 때 이 구문을 실행하고 생성해라 하는 부분
 	// 기본 생성자 -> 생성하지 않아도 컴파일(실행) 할 때 자바에서 자동 생성
 	// 생성자 -> 매개변수, 객체 생성시 실행문 정의
-//	Student() {
-//		System.out.println("객체 생성중");
-//	}
+	Student() {
+	}
+
+	Student(String name) {
+		this.name = name;
+	}
+
+	Student(int age) {
+		if (age > 0)
+			this.age = age;
+		else
+			this.age = 0;
+	}
+	Student(String name, int age){
+		this(age);
+		this.name = name;
+	}
 
 	// 메소드, 객체를 생성 후 기능을 사용할 때 정의 하는 부분
 	void getInfo() {
