@@ -15,7 +15,7 @@ public class LogIn {
 	String pass = "hr";
 	String sql;
 
-	User logIn = new User();
+	User logIn;
 	User temp = new User();
 
 	public void connect() {
@@ -29,6 +29,7 @@ public class LogIn {
 	}
 
 	public void logIn(String userId) {
+		logIn = new User();
 		System.out.print("비밀번호>");
 		String password = sc.nextLine();
 		sql = "select * from member where user_id = '" + userId + "'";
@@ -192,7 +193,7 @@ public class LogIn {
 			if (temp.getLongestLength() > user.getLongestLength()) {
 				round = temp.getNewRecord();
 				user.setNewRecord(round);
-				longest = temp.getNewRecord();
+				longest = temp.getLongestLength();
 				user.setLongestLength(longest);
 			} else if (temp.getLongestLength() == user.getLongestLength()) {
 				if (temp.getNewRecord() > user.getNewRecord()) {
@@ -211,8 +212,8 @@ public class LogIn {
 			psmt = conn.prepareStatement(sql);
 			psmt.setInt(1, round);
 			psmt.setInt(2, longest);
-			psmt.setInt(3, temp.getPlayCount());
-			psmt.setString(4, temp.getUserId());
+			psmt.setInt(3, user.getPlayCount());
+			psmt.setString(4, user.getUserId());
 
 			r = psmt.executeUpdate(); // 처리된 건수
 		} catch (SQLException e) {
