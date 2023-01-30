@@ -10,7 +10,7 @@ public class LogIn {
 	ResultSet rs = null;
 	PreparedStatement psmt = null;
 
-	String url = "jdbc:oracle:thin:@localhost:1521:xe";
+	String url = "jdbc:oracle:thin:@192.168.0.74:1521:xe";
 	String user = "hr";
 	String pass = "hr";
 	String sql;
@@ -60,7 +60,6 @@ public class LogIn {
 							break;
 						case 3:
 							System.out.println("로그아웃 되었습니다");
-							logIn = null;
 							break Outter;
 						case 4:
 							remove(logIn);
