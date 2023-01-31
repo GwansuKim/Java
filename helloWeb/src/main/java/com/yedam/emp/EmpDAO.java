@@ -59,11 +59,12 @@ public class EmpDAO {
 			while (rs.next()) {
 				EmpVO emp = new EmpVO();
 				emp.setEmployeeId(rs.getInt("employee_id"));
-				emp.setFirstName(rs.getString("first_name"));
+				emp.setFirstName(rs.getString("last_name"));
 				emp.setLastName(rs.getString("last_name"));
 				emp.setEmail(rs.getString("email"));
 				emp.setSalary(rs.getInt("salary"));
 				emp.setHireDate(rs.getString("hire_date"));
+				emp.setJobId(rs.getString("job_id"));
 
 				list.add(emp);
 			}
@@ -120,7 +121,7 @@ public class EmpDAO {
 		return r;
 	}
 
-	// 수정
+	// 급여 수정
 	public int updateEmp(int id, int sal) {
 		connect();
 		sql = "update emp_temp set salary = ? where employee_id = ?";
@@ -129,6 +130,26 @@ public class EmpDAO {
 			psmt = conn.prepareStatement(sql);
 			psmt.setInt(1, sal);
 			psmt.setInt(2, id);
+			
+			r = psmt.executeUpdate(); // 처리된 건수
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return r;
+	}
+	
+	// 수정
+	public int modifyEmp(EmpVO emp) {
+		connect();
+		sql = "update emp_temp set last_name=?, email=?, hire_date = ?, job_id=?  where employee_id = ?";
+		int r = 0;
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1, emp.getLastName());
+			psmt.setString(2, emp.getEmail());
+			psmt.setString(3, emp.getHireDate());
+			psmt.setString(4, emp.getJobId());
+			psmt.setInt(5, emp.getEmployeeId());
 			
 			r = psmt.executeUpdate(); // 처리된 건수
 		} catch (SQLException e) {

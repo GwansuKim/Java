@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>util/calendar.html</title>
+  </head>
+  <body>
+    <h3>달력만들기</h3>
+    <div id="show">
+      <!-- <table border="1">
+        <tbody>
+          <td>1</td>
+          <td>2</td>
+          <td>3</td>
+          <td>4</td>
+          <td>5</td>
+          <td>6</td>
+          <td>7</td>
+        </tbody>
+      </table> -->
+    </div>
+    <script>
+      let month = 12;
+      makeCalendar(month);
+
+      function getLastDate(month) {
+        //마지막 날짜 반환하는 함수
+        let lastDayArr = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+        let lastDay = lastDayArr[month];
+        return lastDay;
+      }
+
+      function getAddDay(month) {
+        //1일의 요일정보를 반환하는 함수
+        let lastDayArr = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+        let sum = 0;
+        for (let i = 0; i < month; i++) {
+          sum += lastDayArr[i];
+        }
+        let Day = sum % 7;
+        return Day;
+      }
+
+      function getFristDay(month) {
+        //1일의 요일정보를 반환하는 함수
+        let Day = getAddDay(month);
+        let DayArr = ["일", "월", "화", "수", "목", "금", "토"];
+        return DayArr[Day];
+      }
+
+      function makeCalendar(month) {
+        let table = document.createElement("table");
+        table.setAttribute("border", 1);
+        let tbody = document.createElement("tbody");
+        let tr = document.createElement("tr");
+
+        for (let i = 0; i < getAddDay(month); i++) {
+          let td = document.createElement("td");
+          tr.append(td);
+        }
+
+        for (let i = 1; i <= getLastDate(month); i++) {
+          let td = document.createElement("td");
+          td.innerText = i;
+          if (tr.children.length % 7 == 6) {
+            td.style = "color: blue";
+          } else if (tr.children.length % 7 == 0) {
+            td.style = "color: red";
+          }
+          if (tr.children.length % 7 == 0) {
+            tr = document.createElement("tr");
+          }
+
+          tr.append(td);
+          tbody.append(tr);
+        }
+        table.append(tbody);
+        show.append(table);
+      }
+    </script>
+  </body>
+</html>

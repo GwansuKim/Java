@@ -19,13 +19,13 @@ public class EmpListJson extends HttpServlet {
 
 		EmpDAO dao = new EmpDAO();
 		List<EmpVO> list = dao.empVoList();
-		// [ {"id":100, "firestName"="Hong", "email"="Hong"...}, {}, {} ]
+		// [ {"id":100, "firstName"="Hong", "email"="Hong"...}, {}, {} ]
 		String json = "[";
 		for (int i = 0; i < list.size(); i++) {
 			json += "{\"id\":" + list.get(i).getEmployeeId() + //
-					", \"firstName\":\"" + list.get(i).getFirstName() + "\"" + //
+					", \"lastName\":\"" + list.get(i).getLastName() + "\"" + //
 					", \"email\":\"" + list.get(i).getEmail() + "\"" + //
-					", \"hireDate\":\"" + list.get(i).getHireDate() + "\"" + //
+					", \"hireDate\":\"" + list.get(i).getHireDate().substring(0, 10) + "\"" + //
 					", \"job\":\"" + list.get(i).getJobId() + "\"" + //
 					"}";
 			if (i + 1 != list.size()) {
@@ -51,4 +51,43 @@ public class EmpListJson extends HttpServlet {
 			resp.getWriter().print("{\"retCode\": \"Fail\"}");
 		}
 	}
+
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		req.setCharacterEncoding("utf-8");
+
+		String param = req.getParameter("param");
+		String id = req.getParameter("id");
+		String name = req.getParameter("name");
+		String email = req.getParameter("email");
+		String hDate = req.getParameter("hDate");
+		String job = req.getParameter("job");
+
+		EmpVO vo = new EmpVO();
+		vo.setEmployeeId(Integer.parseInt(id));
+		vo.setLastName(name);
+		vo.setEmail(email);
+		vo.setHireDate(hDate);
+		vo.setJobId(job);
+
+		EmpDAO dao = new EmpDAO();
+		// param = update -> DB update
+		// param = null -> DB insert
+		if (param.equals("update")) {
+			if(dao.modifyEmp(vo) > 0) {
+				resp.getWriter().print("{\"retCode\": \"Success\"}");
+			} else {
+				resp.getWriter().print("{\"retCode\": \"Fail\"}");
+			}
+		} else {
+			if (dao.addEmp(vo) > 0) {
+				// {"retCode": "Success"}
+				resp.getWriter().print("{\"retCode\": \"Success\"}");
+			} else {
+				// {"retCode": "Fail"}
+				resp.getWriter().print("{\"retCode\": \"Fail\"}");
+			}
+		}
+	}
+
 }
