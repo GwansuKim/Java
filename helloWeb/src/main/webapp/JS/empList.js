@@ -191,7 +191,7 @@ function modifyTrFunc() {
   let chk = document.createElement("input");
   chk.setAttribute("type", "checkbox");
   td.append(chk);
-  tr.append(td);
+  newTr.append(td);
 
   thisTr.replaceWith(newTr);
 }
