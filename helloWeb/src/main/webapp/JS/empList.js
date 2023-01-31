@@ -188,7 +188,10 @@ function modifyTrFunc() {
   btn1.innerText = "변경";
   btn1.addEventListener("click", updateBtn);
   td.append(btn1);
-  newTr.append(td);
+  let chk = document.createElement("input");
+  chk.setAttribute("type", "checkbox");
+  td.append(chk);
+  tr.append(td);
 
   thisTr.replaceWith(newTr);
 }
