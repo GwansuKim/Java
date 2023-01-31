@@ -41,15 +41,26 @@ public class EmpListJson extends HttpServlet {
 	@Override
 	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String id = req.getParameter("del_id"); // 요청 페이지에서 del_id로 파라미터 지정
-
+		String[] strArr = id.split(",");
 		EmpDAO dao = new EmpDAO();
-		if (dao.deleteEmp(Integer.parseInt(id)) > 0) {
-			// {"retCode": "Success"}
-			resp.getWriter().print("{\"retCode\": \"Success\"}");
-		} else {
-			// {"retCode": "Fail"}
-			resp.getWriter().print("{\"retCode\": \"Fail\"}");
+		int cnt = 0;
+		int failCnt = 0;
+		for (String temp : strArr) {
+			if (dao.deleteEmp(Integer.parseInt(temp)) > 0) {
+				cnt++;
+			} else {
+				failCnt++;
+			}
 		}
+		resp.getWriter().print("{\"cnt\": \"" + cnt + "\",\"failCnt\":\"" + failCnt + "\"}");
+
+//		if (dao.deleteEmp(Integer.parseInt(id)) > 0) {
+//			// {"retCode": "Success"}
+//			resp.getWriter().print("{\"retCode\": \"Success\"}");
+//		} else {
+//			// {"retCode": "Fail"}
+//			resp.getWriter().print("{\"retCode\": \"Fail\"}");
+//		}
 	}
 
 	@Override
@@ -74,7 +85,7 @@ public class EmpListJson extends HttpServlet {
 		// param = update -> DB update
 		// param = null -> DB insert
 		if (param.equals("update")) {
-			if(dao.modifyEmp(vo) > 0) {
+			if (dao.modifyEmp(vo) > 0) {
 				resp.getWriter().print("{\"retCode\": \"Success\"}");
 			} else {
 				resp.getWriter().print("{\"retCode\": \"Fail\"}");

@@ -3,32 +3,23 @@
  */
 
 //목록 출력하기
-function makeTable() {
-  return new Promise(function (resolve, reject) {
-    resolve = fetch("../empListJson")
-      .then((resolve) => resolve.json())
-      .then((result) => {
-        result.forEach(function (item, idx, arry) {
-          let tr = makeTr(item);
-          list.append(tr);
-        });
-      })
-      .catch((reject) => {
-        console.log(reject);
+function showIndex() {
+  fetch("../empListJson")
+    .then((resolve) => resolve.json())
+    .then((result) => {
+      result.forEach(function (item, idx, arry) {
+        let tr = makeTr(item);
+        list.append(tr);
       });
-  });
+    })
+    .catch((reject) => {
+      console.log(reject);
+    });
 }
-makeTable().then(aaa);
+showIndex();
 
 // 체크 박스 -> 전체 체크 박스 반영
-function aaa() {
-  let chkCnt = document.querySelectorAll('tbody input[type="checkbox"]');
-  console.log(chkCnt.length);
-  for (let i = 0; i < chkCnt.length; i++) {
-    console.log(chkCnt[i]);
-    chkCnt[i].addEventListener("change", checkChange);
-  }
-}
+let chkCnt = document.querySelectorAll('tbody input[type="checkbox"]');
 
 // 저장버튼에 submit 이벤트 등록
 document
@@ -70,6 +61,7 @@ function makeTr(item) {
   td = document.createElement("td");
   let chk = document.createElement("input");
   chk.setAttribute("type", "checkbox");
+  chk.addEventListener("change", checkChange);
   td.append(chk);
   tr.append(td);
   // tr반환
@@ -83,10 +75,10 @@ function removeBtn() {
   })
     .then((resolve) => resolve.json())
     .then((result) => {
-      if (result.retCode == "Success") {
+      if (result.cnt == 1) {
         alert("삭제 완료");
         this.closest("tr").remove();
-      } else if (result.retCode == "Fail") {
+      } else if (result.failCnt == 1) {
         alert("삭제중 오류 발생");
       }
     })
@@ -111,7 +103,7 @@ function addMember(evt) {
     method: "POST",
     headers: { "CONTENT-TYPE": "application/x-www-form-urlencoded" }, //key=val&key1-val1
     body:
-      "id=" +
+      "param=insert&id=" +
       id +
       "&name=" +
       name +
@@ -188,6 +180,7 @@ function modifyTrFunc() {
   btn1.innerText = "변경";
   btn1.addEventListener("click", updateBtn);
   td.append(btn1);
+  td = document.createElement("td");
   let chk = document.createElement("input");
   chk.setAttribute("type", "checkbox");
   td.append(chk);
@@ -233,6 +226,10 @@ function updateBtn() {
         alert("정상처리");
         let tr = makeTr(item);
         thisTr.replaceWith(tr);
+        let allBtn = document.querySelectorAll("tbody button");
+        for (let i = 0; i < allBtn.length; i++) {
+          allBtn[i].disabled = false;
+        }
       } else if (result.retCode == "Fail") {
         alert("처리중 오류 발생");
       }
@@ -248,44 +245,40 @@ function allCheckChange() {
 
 // 개별 체크 함수
 function checkChange() {
-  for (
-    let i = 0;
-    i < document.querySelectorAll('tbody input[type="checkbox"]').length;
-    i++
-  ) {
-    if (
-      document.querySelectorAll('tbody input[type="checkbox"]')[i].checked !=
-      true
-    ) {
-      document.querySelector('thead input[type="checkbox"]').checked = false;
+  let firChkBox = document.querySelector('thead input[type="checkbox"]');
+
+  let othChkBox = document.querySelectorAll('tbody input[type="checkbox"]');
+
+  for (let i = 0; i < othChkBox.length; i++) {
+    if (othChkBox[i].checked != true) {
+      firChkBox.checked = false;
       return;
     }
   }
-  document.querySelector('thead input[type="checkbox"]').checked = true;
+  firChkBox.checked = true;
 }
 
 // 체크된 항목 전체 삭제
 function deleteCheckedFnc() {
-  let cnt = 0;
-  let failCnt = 0;
-  document
-    .querySelectorAll('tbody input[type="checkbox"]:checked')
-    .forEach((chk) => {
-      fetch(
-        "../empListJson?del_id=" + chk.closest("tr").children[0].innerText,
-        { method: "DELETE" }
-      )
-        .then((resolve) => resolve.json())
-        .then((result) => {
-          if (result.retCode == "Success") {
-            chk.closest("tr").remove();
-            cnt++;
-          } else if (result.retCode == "Fail") {
-            failCnt++;
-          }
-        })
-        .catch((reject) => {
-          console.log(reject);
-        });
+  let tr = document.querySelectorAll('tbody input[type="checkbox"]:checked');
+  let str = "";
+  for (let i = 0; i < tr.length; i++) {
+    str += tr[i].closest("tr").children[0].innerText + ",";
+  }
+  fetch("../empListJson?del_id=" + str, {
+    method: "DELETE",
+  })
+    .then((resolve) => resolve.json())
+    .then((result) => {
+      if (result.failCnt == 0) {
+        alert(result.cnt + "건 삭제 완료");
+      } else {
+        alert(result.failCnt + "건 삭제 중 오류 발생");
+      }
+      document.querySelector("tbody").innerHTML = "";
+      showIndex();
+    })
+    .catch((reject) => {
+      console.log(reject);
     });
 }
