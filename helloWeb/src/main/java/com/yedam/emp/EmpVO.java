@@ -13,11 +13,11 @@ public class EmpVO {
 	public EmpVO(int employeeId, String lastName, String email, String hireDate, String jobId) {
 		this.employeeId = employeeId;
 		this.lastName = lastName;
-		this.email = email;
+		this.email = email; 
 		this.hireDate = hireDate;
 		this.jobId = jobId;
 	}
-
+	
 	public int getEmployeeId() {
 		return employeeId;
 	}

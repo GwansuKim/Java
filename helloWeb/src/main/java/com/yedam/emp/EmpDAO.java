@@ -23,7 +23,7 @@ public class EmpDAO {
 			e.printStackTrace();
 		}
 	}
-// CURD
+// CURDr
 
 	// 목록조회
 	public List<Map<String, Object>> empList() {
