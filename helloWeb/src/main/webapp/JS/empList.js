@@ -3,10 +3,13 @@
  */
 
 //목록 출력하기
+let totalAry = [];
 function showIndex() {
   fetch("../empListJson")
     .then((resolve) => resolve.json())
     .then((result) => {
+      localStorage.setItem("total", result.length);
+      totalAry = result;
       result.forEach(function (item, idx, arry) {
         let tr = makeTr(item);
         list.append(tr);
@@ -183,6 +186,7 @@ function modifyTrFunc() {
   td = document.createElement("td");
   let chk = document.createElement("input");
   chk.setAttribute("type", "checkbox");
+  chk.addEventListener("change", checkChange);
   td.append(chk);
   newTr.append(td);
 
@@ -261,6 +265,10 @@ function checkChange() {
 // 체크된 항목 전체 삭제
 function deleteCheckedFnc() {
   let tr = document.querySelectorAll('tbody input[type="checkbox"]:checked');
+  if (tr.length == 0) {
+    alert("선택된 사원이 없습니다");
+    return;
+  }
   let str = "";
   for (let i = 0; i < tr.length; i++) {
     str += tr[i].closest("tr").children[0].innerText + ",";
@@ -273,7 +281,7 @@ function deleteCheckedFnc() {
       if (result.failCnt == 0) {
         alert(result.cnt + "건 삭제 완료");
       } else {
-        alert(result.failCnt + "건 삭제 중 오류 발생");
+        alert("삭제 중 " + result.failCnt + "건 오류 발생");
       }
       document.querySelector("tbody").innerHTML = "";
       showIndex();
@@ -282,3 +290,69 @@ function deleteCheckedFnc() {
       console.log(reject);
     });
 }
+
+// 체크된 항목 전체 삭제(async await)
+/* async function deleteChecked() {
+  let ids = [];
+  let chks = document.querySelectorAll('#list input[type="checkbox"]:checked');
+  for (let i = 0; i < chks.length; i++) {
+    let id = chks[i].closest("tr").firstChild.innerText;
+    let resp = await fetch("../empListJson?del_id=" + id, {
+      method: "DELETE",
+    });
+    let json = await resp.json();
+    ids.push(json);
+  }
+
+  processAfterFetch(ids); // [{id:101,retCode:Success},{}...]
+}
+
+function processAfterFetch(ary = []) {
+  let targetTr = document.querySelectorAll("#list tr");
+  let delNum = "";
+  let failNum = "";
+  targetTr.forEach((tr) => {
+    for (let i = 0; i < ary.length; i++) {
+      if (tr.children[0].innerText == ary[i].id) {
+        if (ary[i].retCode == "Success") {
+          tr.remove();
+          delNum += ary[i].id + ", ";
+        } else {
+          tr.setAttribute("class", "delError");
+          failNum += ary[i].id + ", ";
+        }
+      }
+    }
+  });
+  alert(delNum.substring(0, str.length - 2) + "번 삭제 완료");
+  alert(failNum.substring(0, str.length - 2) + "번 삭제 중 에러 발생");
+  // document.querySelector("tbody").innerHTML = "";
+  // showIndex();
+} */
+
+/* function showPages(curPage = 5) {
+  let endPage = Math.ceil(curPage / 10) * 10;
+  let startPage = endPage - 9;
+  let realEnd = Math.ceil(255 / 10);
+  endPage = endPage > realEnd ? realEnd : endPage;
+  let paging = document.getElementById("paging");
+  for (let i = startPage; i <= endPage; i++) {
+    let aTag = document.createElement("a");
+    aTag.href = "index.html";
+    aTag.innerText = i;
+    paging.append(aTag);
+  }
+}
+
+function employeeList(curPage = 5) {
+  let end = curPage * 10;
+  let start = end - 9;
+  let newList = totalAry.filter((emp, idx) => {
+    return idx + 1 >= start && idx < end;
+  });
+  let lst = document.getElementById("list");
+  newList.forEach((emp) => {
+    let tr = makeTr(emp);
+    lst.append("tr");
+  });
+} */

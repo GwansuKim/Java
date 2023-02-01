@@ -49,7 +49,6 @@ public class FirstServlet extends HttpServlet {
 		resp.getWriter().print("<a href='index.html'>처음으로</a>");
 
 		EmpDAO dao = new EmpDAO();
-		dao.empVoList();
 		List<EmpVO> list = dao.empVoList();
 
 		resp.getWriter().print("<ul>");

@@ -9,6 +9,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 @WebServlet("/empListJson")
 public class EmpListJson extends HttpServlet {
 
@@ -54,13 +58,20 @@ public class EmpListJson extends HttpServlet {
 		}
 		resp.getWriter().print("{\"cnt\": \"" + cnt + "\",\"failCnt\":\"" + failCnt + "\"}");
 
+		// async await 쓸 때 반환값 지정
+//		Map<String, Object> map = new HashMap<>();
+//		map.put("id", id);
 //		if (dao.deleteEmp(Integer.parseInt(id)) > 0) {
-//			// {"retCode": "Success"}
-//			resp.getWriter().print("{\"retCode\": \"Success\"}");
+//			// resp.getWriter().print("{\"id\":" + id + "\"retCode\": \"Success\"}");
+//			map.put("retCode", "Success");
 //		} else {
-//			// {"retCode": "Fail"}
-//			resp.getWriter().print("{\"retCode\": \"Fail\"}");
+//			// resp.getWriter().print("{\"id\":" + id + "\"retCode\": \"Fail\"}");
+//			map.put("retCode", "Fail");
 //		}
+//		//map=>json
+//		Gson gson = new GsonBuilder().create(); 
+//		resp.getWriter().print(gson.toJson(map));
+		
 	}
 
 	@Override

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Insert title here</title>
+    <style>
+      div.outer {
+        padding: 35px;
+        background-color: yellow;
+        width: 520px;
+        height: 300px;
+      }
+      div.inner {
+        display: inline-block;
+        background-color: aqua;
+        height: 30px;
+        width: 120px;
+        margin: 2px;
+        border: 1px solid black;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="list" class="outer"></div>
+    <input type="text" id="search" />
+    <button id="btn">제거하기</button>
+    <script>
+      let words =
+        "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Magnam veniam, quasi laborum nisi quia animi excepturi omnis fugit, corrupti optio consectetur voluptatem tenetur iusto libero consequuntur atque eius, dolorem placeat.";
+      let word = words.split(" ");
+      word.forEach((item, idx, ary) => {
+        let div = document.createElement("div");
+        div.setAttribute("class", "inner");
+        div.innerText = item;
+        list.append(div);
+      });
+      let del = document.getElementById("search");
+      btn.addEventListener("click", function () {
+        let findEl = document.querySelectorAll('div[class="inner"]');
+        let suc = 0;
+        if (findEl.length != 0) {
+          findEl.forEach((item, idx, ary) => {
+            if (del.value == item.innerText) {
+              item.remove();
+              suc = 1;
+            }
+          });
+        }
+        if (findEl.length == 1 && suc == 1) {
+          alert(timer.innerText + "초 Clear!!");
+        }
+      });
+      let time = 0;
+      let div = document.createElement("div");
+      div.setAttribute("id", "timer");
+      setInterval(() => {
+        div.innerText = "";
+        time += 1;
+        div.innerText = time;
+        document.querySelector("body").append(div);
+      }, 1000);
+    </script>
+  </body>
+</html>
