@@ -331,20 +331,46 @@ function processAfterFetch(ary = []) {
 } */
 
 /* function showPages(curPage = 5) {
+  paging.innerHTML = "";
   let endPage = Math.ceil(curPage / 10) * 10;
   let startPage = endPage - 9;
-  let realEnd = Math.ceil(255 / 10);
+  let realEnd = Math.ceil(localStorage.getItem("total") / 10);
+  let prev, next;
   endPage = endPage > realEnd ? realEnd : endPage;
+  prev = startPage > 1 ? true : false;
+  next = endPage < realEnd ? true : false;
   let paging = document.getElementById("paging");
+  if (prev) {
+    let aTag = document.createElement("a");
+    aTag.addEventListener("click", showListPages);
+    aTag.href = "#";
+    aTag.innerText = startPage - 1;
+    paging.append(aTag);
+  }
   for (let i = startPage; i <= endPage; i++) {
     let aTag = document.createElement("a");
-    aTag.href = "index.html";
+    aTag.addEventListener("click", showListPages);
+    aTag.href = "#";
     aTag.innerText = i;
+    paging.append(aTag);
+  }
+  if (next) {
+    let aTag = document.createElement("a");
+    aTag.addEventListener("click", showListPages);
+    aTag.href = "#";
+    aTag.innerText = endPage + 1;
     paging.append(aTag);
   }
 }
 
+function showListPages(e) {
+  let page = e.target.innerText;
+  showPages(page);
+  employeeList(page);
+}
+
 function employeeList(curPage = 5) {
+  document.querySelector("#list").innerHTML = "";
   let end = curPage * 10;
   let start = end - 9;
   let newList = totalAry.filter((emp, idx) => {
@@ -353,6 +379,6 @@ function employeeList(curPage = 5) {
   let lst = document.getElementById("list");
   newList.forEach((emp) => {
     let tr = makeTr(emp);
-    lst.append("tr");
+    lst.append(tr);
   });
 } */
